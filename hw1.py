@@ -1,17 +1,21 @@
 
-#Q1: Computes n-th padovan number using recursion. 
+#Q1: Computes n-th padovan number using memoization. 
 def PAD(n): 
     if n == 0 or n == 1 or n == 2:
         return 1
-    else:
-        return PAD(n-1) + PAD(n-2)
+    memo = [1] * (n+1)
+    for i in range(3, n+1):
+        memo[i] = memo[i-2] + memo[i-3]
+    return memo[n]
 
-#Q2: Computes number of additions required to compute n-th padovan number using recursion.
+#Q2: Computes number of additions required to compute n-th padovan number using memoization.
 def SUMS(n):
     if n == 0 or n == 1 or n == 2:
         return 0
-    else:
-        return 1 + SUMS(n-1) + SUMS(n-2)    
+    memo = [0] * (n+1)
+    for i in range(3, n+1):
+        memo[i] = 1 + memo[i-2] + memo[i-3]
+    return memo[n]  
 
 #Q3: Recursively iterate through each subtree (tuple) to build anonymized tree. 
 def ANON(TREE):
@@ -47,6 +51,13 @@ def TREE_ORDER(TREE):
     return tuple(res)
 
 def run_tests():
+    print(f"{'n':>2} | {'PAD(n)':>7} | {'SUMS(n)':>8}")
+    print('-' * 25)
+
+    for n in range(15):
+        print(f"{n:>2} | {PAD(n):>7} | {SUMS(n):>8}")
+
+
     print('>>> ANON(42)')
     print(ANON(42))  # Expected: '?'
     print('>>> ANON("FOO")')
